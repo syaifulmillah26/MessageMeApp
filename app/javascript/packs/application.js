@@ -6,8 +6,16 @@
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
-import "channels"
+import 'bootstrap';
+import 'channels';
+import './src/application.scss';
+import './src/custom.js';
+global.toastr = require("toastr")
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+require("jquery")
+
+
+

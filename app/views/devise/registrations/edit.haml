@@ -1,0 +1,39 @@
+=render "layouts/menus"
+.container
+  .ui.segment
+    = render 'layouts/flash_message'
+    .card-body.p-0
+      / Nested Row within Card Body
+      .row
+        .col-lg-12.d-flex.justify-content-center
+          .p-5
+            .text-center
+              %h1.h4.text-gray-900.mb-4
+                Edit #{resource_name.to_s.humanize}
+              = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+                = render "devise/shared/error_messages", resource: resource
+                .form-group
+                  = f.text_field :name, autocomplete: "name", class: 'form-control form-control-user', placeholder: "Enter Your Name"
+                .form-group
+                  = f.text_field :username, autofocus: true, autocomplete: "username", class: 'form-control form-control-user', placeholder: "full name"
+                .form-group
+                  = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control form-control-user'  
+                - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+                  %div
+                    Currently waiting confirmation for: #{resource.unconfirmed_email}
+                .form-group
+                  = f.password_field :password, autocomplete: "new-password", class: 'form-control form-control-user', placeholder: "leave blank if you don't want to change it"
+                  - if @minimum_password_length
+                    %em
+                      = @minimum_password_length
+                      characters minimum
+                .form-group
+                  = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control form-control-user'
+                .form-group
+                  = f.password_field :current_password, autocomplete: "current-password", class: 'form-control form-control-user', placeholder: 'we need your current password to confirm your changes'
+                .form-group
+                  = f.submit "Update", class: 'btn btn-outline-primary btn-user btn-block'
+              %h3 Cancel my account
+              %p
+                Unhappy? #{button_to "Cancel my account", registration_path(resource_name), class: 'btn btn-outline-primary btn-user btn-block', data: { confirm: "Are you sure?" }, method: :delete}
+                = link_to "Back", :back

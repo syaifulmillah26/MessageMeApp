@@ -1,0 +1,29 @@
+
+=render "layouts/menus"
+.container
+  .ui.segment
+    = render 'layouts/flash_message'
+    .card-body.p-0
+      / Nested Row within Card Body
+      .row
+        .col-lg-12.d-flex.justify-content-center
+          .p-5
+            .text-center
+              %h1.h4.text-gray-900.mb-4 Sign Up!
+            = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+              = render "devise/shared/error_messages", resource: resource
+              .form-group
+                = f.text_field :username, autofocus: true, autocomplete: "username", class: 'form-control form-control-user', placeholder: "username"
+              .form-group
+                = f.email_field :email, class: 'form-control form-control-user', autofocus: true, autocomplete: "email", placeholder: 'Email'
+              .form-group
+                - if @minimum_password_length
+                  %em
+                    (#{@minimum_password_length} characters minimum)
+                = f.password_field :password, class: 'form-control form-control-user', autocomplete: "new-password"
+              .form-group
+                = f.password_field :password_confirmation, class: 'form-control form-control-user', autocomplete: "new-password"
+              .form-group
+                = f.submit "Sign up", class: 'btn btn-outline-primary btn-user btn-block'
+            = render "devise/shared/links"
+

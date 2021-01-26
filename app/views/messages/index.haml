@@ -1,0 +1,106 @@
+
+=render "layouts/menus"
+.container
+  .ui.segment
+    =render "layouts/flash_message"
+    %h1 Chatroom Apps
+    .row
+      .col-md-8
+        .card
+          .card-header.header-name
+            Chat with
+          .card-body
+            .div#messages-0
+
+            %form
+              .ui.form.success
+                .field
+                  %input{:placeholder => "user_id", :type => "hidden", :name => "user_id", :class => "user_id"}
+                .field
+                  %input{:placeholder => "room_id", :type => "hidden", :name => "room_id", :class => "room_id"}
+                .field
+                  %textarea{:placeholder => "Say Hello!", id: "hide_textarea", :type => "text", :name => "body", :class => "body"}
+                .ui.submit.button{id: "hide_button", onclick: "submit()"}  Submit  
+
+      .col-md-4
+        .card
+          .card-header
+            My Friends
+          .card-body
+            - @friends.each do |user|
+              - user.friend_id
+              .ui.middle.aligned.selection.list
+                .item{ id: "#{user.friend_id}", onclick: "myFunction(this.id)"}
+                  %img.ui.avatar.image{:src => "https://semantic-ui.com/images/avatar/small/helen.jpg"}/
+                  .content
+                    .header #{User.where(id: user.friend_id)&.first&.name} 
+
+:javascript
+  function myFunction(this_id) {
+  // remove list items if exists
+  var del = document.getElementById("message");
+  if (del != null) {
+    $(".message").each(function (i, obj) {
+      obj.remove();
+    });
+  }
+
+  // get data user
+  const user_id = this_id;
+  $.ajax({
+    type: "GET",
+    url: "/messages/get_user.json",
+    data: {
+      user_id: user_id,
+    },
+    success: function (data) {
+      $(".header-name").text("Chat with " + data.name);
+      $(".user_id").val(data.user_id);
+      $("#hide_textarea").show();
+      $("#hide_button").show();
+      if (data.room_id != null) {
+        $(".room_id").val(data.room_id);
+      }
+      if (data.rooms) {
+        const options = {weekday: 'short', month: 'short', day: 'numeric' };
+        data.rooms.forEach(function (wizard) {
+          $("#messages-0").append(
+            "<div class='ui success message' id='message'><div class=header'>" + wizard.sender + " : " + wizard.body + "</div> <small>" + wizard.date +  "</small></div>");
+          });
+        }
+      },
+    });
+  }
+
+  function submit() {
+    const user = $(".user_id").val();
+    const room = $(".room_id").val();
+    const message = $(".body").val();
+
+    $.ajax({
+      type: "POST",
+      url: "/messages/create_message.json",
+      data: {
+        message: {
+          user_id: user,
+          room_id: room,
+          body: message,
+        },
+      },
+      success: function (data) {
+        toastr.success("Send");
+        $("#hide_textarea").val("");
+      },
+    });
+  }
+
+  $(document).ready(function () {
+    $("#hide_textarea").hide();
+    $("#hide_button").hide();
+  });
+
+:css
+  li {
+    list-style-type: none;
+    margin: 2px 4px 4px 2px;
+  }

@@ -1,0 +1,37 @@
+=render "layouts/menus"
+.container
+  .ui.segment
+    =render "layouts/flash_message"
+    %h1 Your Friends
+    .ui.link.cards
+      - @friends.each do |user|
+        - user.friend_id
+        .card
+          .image
+            %img{:src => "https://semantic-ui.com/images/avatar2/large/matthew.png"}/
+          .content
+            .header #{User.find_by(id: user.friend_id)&.name}
+            .meta
+              Friends
+            .description
+              Matthew is an interior designer living in New York.
+          .extra.content
+            %span.right.floated
+              - if User.where(id: user.friend_id).exists?
+                = button_to remove_friend_user_path(user.friend_id), class: "ui vertical animated button", method: :get do
+                  .visible.content 
+                    %i.icon.user
+                    Followed
+                  .hidden.content unfollow
+              - else
+                = button_to add_friend_user_path(user.friend_id), class: "ui vertical animated button", method: :get do
+                  .visible.content 
+                    %i.icon.user
+                    Add
+                  .hidden.content Follow
+            %span
+              = button_to root_path, class: "ui vertical animated button", method: :get do
+                .visible.content
+                  %i.comment.alternate.outline.icon
+                .hidden.content Chat
+

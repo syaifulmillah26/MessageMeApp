@@ -1,0 +1,19 @@
+- if notice
+  .flash
+    .alert.alert-info.mt-2
+      = flash.notice
+      %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        %span{"aria-hidden" => "true"} ×
+- if alert
+  .flash
+    .alert.alert-danger.mt-2
+      = flash.alert
+      %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        %span{"aria-hidden" => "true"} ×
+
+:javascript
+  $(document).ready(function(){
+    setTimeout(function(){
+      $('.flash').remove();
+    }, 3000);
+   })   
