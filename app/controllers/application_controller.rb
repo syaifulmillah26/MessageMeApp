@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-
+	# etag { current_user.try :id }
   include ApplicationHelper
 
 	before_action :configure_permitted_parameters, if: :devise_controller?

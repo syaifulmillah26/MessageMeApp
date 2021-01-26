@@ -1,5 +1,5 @@
 =render "layouts/menus"
-.container
+.container-fluid
   .ui.segment
     =render "layouts/flash_message"
     %h1 Your Friends
@@ -30,7 +30,7 @@
                     Add
                   .hidden.content Follow
             %span
-              = button_to root_path, class: "ui vertical animated button", method: :get do
+              = button_to messages_path(User.find_by(id: user.friend_id)&.slug), class: "ui vertical animated button", method: :get do
                 .visible.content
                   %i.comment.alternate.outline.icon
                 .hidden.content Chat

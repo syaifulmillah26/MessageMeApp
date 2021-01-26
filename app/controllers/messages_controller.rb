@@ -5,6 +5,9 @@ class MessagesController < ApplicationController
   # GET /messages or /messages.json
   def index
     @friends = Friend.where(user_id: current_user.id).order(created_at: :desc)
+    # fresh_when etag: @friends
+    expires_in 2.minutes
+    fresh_when @friends, public: true
     @message = Message.new
   end
 
@@ -65,7 +68,7 @@ class MessagesController < ApplicationController
     rooms   = Room.find_by(id: room)
     if !rooms.present?
       Room.create(name: "#{current_user.username} and #{user&.username}")
-      Message.create(user_id: current_user.id, sender: current_user.name, room_id: Room.last&.id, body: message, date: Date.new.strftime("at %I:%M %p"))
+      Message.create(user_id: current_user.id, sender: current_user.name, room_id: Room.last&.id, body: message, date: Time.now.strftime("at %I:%M %p"))
       flash[:notice] = "Saved ..."   #there you are!!!
       ActionCable.server.broadcast 'chatroom_channel',
                                             content: Message.last
@@ -77,7 +80,7 @@ class MessagesController < ApplicationController
       #   message: "Room Has been created"}, 
       #   status: 200
     else
-      Message.create(user_id: current_user.id, sender: current_user.name, room_id: room, body: message, date: Date.new.strftime("at %I:%M %p"))
+      Message.create(user_id: current_user.id, sender: current_user.name, room_id: room, body: message, date: Time.now.strftime("at %I:%M %p"))
       ActionCable.server.broadcast 'chatroom_channel',
                                             content: Message.last
       # render json: {

@@ -5,6 +5,10 @@ class UsersController < ApplicationController
     @friend = Friend.new
   end
 
+  def show
+    @user = User.friendly.find(params[:id])
+  end
+
   def add_friend
     friend_id = params[:id]
     if friend_id.present?
@@ -21,11 +25,8 @@ class UsersController < ApplicationController
     remove_friend_2 = Friend.where(user_id: friend_id, friend_id: current_user.id)&.first
     remove_friend_1.destroy
     remove_friend_2.destroy
+    redirect_to users_path
     flash[:alert] = "Friend was successfully removed."
-    respond_to do |format|
-      format.html { redirect_to users_path, notice: "Friend was successfully removed." }
-      format.json { head :no_content }
-    end
 
   end
 end
