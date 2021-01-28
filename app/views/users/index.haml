@@ -3,8 +3,8 @@
   %form{:action => users_path, :autocomplete => "off"}
     .autocomplete{:style => "width:300px;"}
       %input#myInput{:name => "term", :placeholder => "Search User", :type => "text"}
-    %input{:type => "submit", :name =>"commit"}
-  = link_to 'Refresh', users_path
+    %button{:type => "submit", class: "ui button"} 
+      Search
   .ui.segment
     =render "layouts/flash_message"
     %h1 Users
@@ -53,7 +53,7 @@
   }
 
   body {
-    font: 16px Arial;  
+    font: 14px Arial;  
   }
 
   /*the container must be positioned relative:*/
@@ -65,8 +65,8 @@
   input {
     border: 1px solid transparent;
     background-color: #f1f1f1;
-    padding: 10px;
-    font-size: 16px;
+    padding: 9px;
+    font-size: 14px;
   }
 
   input[type=text] {
@@ -93,7 +93,7 @@
   }
 
   .autocomplete-items div {
-    padding: 10px;
+    padding: 9px;
     cursor: pointer;
     background-color: #fff; 
     border-bottom: 1px solid #d4d4d4; 
