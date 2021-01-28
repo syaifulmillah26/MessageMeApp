@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   get 'friends', to: 'friends#index'    
   get 'users', to: 'users#index'
   resources :users do
+    collection do
+      get :auto_suggestions
+    end
     member do
       get :add_friend
       get :remove_friend

@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @friend = Friend.new
   end
 
-  def suggestions
+  def auto_suggestions
     users = User.all.map{|x| x.name}
     render json: {data:users.as_json},status: :ok
   end

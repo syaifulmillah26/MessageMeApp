@@ -2,7 +2,7 @@
 .container-fluid
   %form{:action => users_path, :autocomplete => "off"}
     .autocomplete{:style => "width:300px;"}
-      %input#myInput{:name => "term", :placeholder => "Search User", :type => "text"}
+      %input#myInput{:name => "term", :placeholder => "Search User", :type => "text", onclick: "getAutocomplete()"}
     %button{:type => "submit", class: "ui button"} 
       Search
   .ui.segment

@@ -66,7 +66,7 @@ window.myFunction = function(this_id) {
    // searching user form autocomplete
    $.ajax({
      type: "GET",
-     url: "/users/search_user.json",
+     url: "/users/auto_suggestions.json",
      success: function (data) {
        // console.log(data)
        /*An array containing all the country names in the world:*/
