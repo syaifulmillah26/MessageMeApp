@@ -5,9 +5,6 @@ class MessagesController < ApplicationController
   # GET /messages or /messages.json
   def index
     @friends = Friend.where(user_id: current_user.id).order(created_at: :desc)
-    # fresh_when etag: @friends
-    expires_in 2.minutes
-    fresh_when @friends, public: true
     @message = Message.new
   end
 

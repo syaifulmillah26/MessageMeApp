@@ -1,8 +1,20 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  
   def index
-    @users = User.where.not(id: current_user).order(created_at: :desc)
+    search = params[:term].present? ? params[:term] : nil
+    @users = if search 
+      User.search(search)
+    else
+      User.where.not(id: current_user).order(created_at: :desc)
+    end
+    @users
     @friend = Friend.new
+  end
+
+  def suggestions
+    users = User.all.map{|x| x.name}
+    render json: {data:users.as_json},status: :ok
   end
 
   def show

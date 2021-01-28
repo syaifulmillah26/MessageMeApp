@@ -11,8 +11,14 @@ class User < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  after_create :create_username
+  searchkick word_middle: [:name]
+  def search_data
+    {
+      name: name
+    }
+  end
 
+  after_create :create_username
   def create_username
     user = User.find_by(id: self.id)
     user.update(username: self.name.gsub!(/\s+/, ''))

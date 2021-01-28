@@ -15,6 +15,7 @@ gem 'semantic-ui-sass', '~> 2.2', '>= 2.2.1.1'
 gem 'devise'
 gem 'friendly_id', '~> 5.1'
 gem 'simple_form'
+gem 'searchkick'
 
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
