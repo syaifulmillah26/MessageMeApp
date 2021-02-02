@@ -1,82 +1,91 @@
-// hide text area
-$("#hide_textarea").hide();
-$("#hide_button").hide(); 
 
 
-// get user data on messages
-window.myFunction = function(this_id) {
- // remove list items if exists
- var del = document.getElementById("message");
- if (del != null) {
-   $(".message").each(function (i, obj) {
-     obj.remove();
-   });
- }
+  // get user data on messages
+  window.myFunction = function(this_id) {
+    // remove list items if exists
+    var del = document.getElementById("message");
+    if (del != null) {
+      $(".feed").each(function (i, obj) {
+        obj.remove();
+      });
+      $(".noMessage").remove();
+    }
+    // remove previous style
+    $(".item").css("background-color", "#ffffff")
+    // adding style
+    $("#"+this_id).css("background-color", "rgb(245 245 245)")
 
- const user_id = this_id;
- $.ajax({
-   type: "GET",
-   url: "/messages/get_user.json",
-   data: {
-     user_id: user_id,
-   },
-   success: function (data) {
-     $(".header-name").text("Chat with " + data.name);
-     $(".user_id").val(data.user_id);
-     $("#hide_textarea").show();
-     $("#hide_button").show();
-     if (data.room_id != null) {
-       $(".room_id").val(data.room_id);
-     }
-     if (data.rooms) {
-       const options = {weekday: 'short', month: 'short', day: 'numeric' };
-       data.rooms.forEach(function (wizard) {
-         $("#messages-0").append(
-           "<div class='ui success message' id='message'><div class=header'>" + wizard.sender + " : " + wizard.body + "</div> <small>" + wizard.date +  "</small></div>");
-         });
-       }
-     },
-   });
- }
+    const user_id = this_id;
+    $.ajax({
+      type: "GET",
+      url: "/messages/get_user.json",
+      data: {
+        user_id: user_id,
+      },
+      success: function (data) {
+        $(".header-name").text("Chat with " + data.name);
+        $(".user_id").val(data.user_id);
+        $("#hideCard").show();
+        $(".room_id").val(data.room_id);
+        $(".messages-0").attr("id", "messages-" + data.room_id)
+        if (data.rooms) {
+          if (data.rooms != "") {
+            data.rooms.forEach(function (wizard) {
+              $("#messages-" + wizard.room_id).append(
+                "<div class='ui large feed' id='message'><div class='event'><div class='label'><img src='https://semantic-ui.com/images/avatar/small/elliot.jpg'></div><div class='content'><div class='summary'>" 
+                + wizard.sender + 
+                "<div class='date'>" 
+                + jQuery.timeago(wizard.created_at) + 
+                "</div></div><div class='extra text'>" 
+                + wizard.body + 
+                "</div></div></div></div>");
+            });
+          } else {
+            $("#messages-" + data.room_id).append("<div class=' text-center noMessage' id='message' ></br></br></br></br></br></br></br><h5> There are no messages in this chat yet. </h5></div>")
+          }
+        }
+      },
+    });
+  }
 
- // create message
- window.submit = function () {
-   const user = $(".user_id").val();
-   const room = $(".room_id").val();
-   const message = $(".body").val();
+  // create message
+  window.submit = function () {
+    const user = $(".user_id").val();
+    const room = $(".room_id").val();
+    const message = $(".body").val();
 
-   $.ajax({
-     type: "POST",
-     url: "/messages/create_message.json",
-     data: {
-       message: {
-         user_id: user,
-         room_id: room,
-         body: message,
-       },
-     },
-     success: function (data) {
-       toastr.success("Send");
-       $("#hide_textarea").val("");
-     },
-   });
- }
+    $.ajax({
+      type: "POST",
+      url: "/messages/create_message.json",
+      data: {
+        message: {
+          user_id: user,
+          room_id: room,
+          body: message,
+        },
+      },
+      success: function (data) {
+        toastr.success("Send");
+        $("#textarea").val("");
+      },
+    });
+  }
 
- window.getAutocomplete = function (){
-   // searching user form autocomplete
-   $.ajax({
-     type: "GET",
-     url: "/users/auto_suggestions.json",
-     success: function (data) {
-       // console.log(data)
-       /*An array containing all the country names in the world:*/
-       var countries = data.data
-       /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-       autocomplete(document.getElementById("myInput"), countries);
+  window.getAutocomplete = function (){
+    // searching user form autocomplete
+    $.ajax({
+      type: "GET",
+      url: "/users/auto_suggestions.json",
+      success: function (data) {
+        // console.log(data)
+        /*An array containing all the country names in the world:*/
+        var countries = data.data
+        /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+        autocomplete(document.getElementById("myInput"), countries);
 
-     },
-   });
- }
+      },
+    });
+  }
 
  
 

@@ -16,6 +16,7 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 require("jquery")
+require("packs/src/custom")
 
 
 
