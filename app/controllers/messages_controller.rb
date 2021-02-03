@@ -21,7 +21,8 @@ class MessagesController < ApplicationController
           rooms: messages,
           user_id: users.id.as_json, 
           room_id: room_id.as_json, 
-          name: users.name.as_json, 
+          name: users.name.as_json,
+          current_user_id: current_user.id,
           message: "room created"}, status: 200
       else
         room_id   = room_2
@@ -30,9 +31,9 @@ class MessagesController < ApplicationController
           # date: created_at.strftime("at %I:%M%p"),
           rooms: messages,
           room_id: room_id.as_json, 
-          user_id: users.id.as_json, 
-          name: users.name.as_json},
-          status: 200 
+          user_id: users.id.as_json,
+          current_user_id: current_user.id,
+          name: users.name.as_json}, status: 200 
       end
     else
       room_id   = room
@@ -41,7 +42,8 @@ class MessagesController < ApplicationController
         # date: created_at.strftime("at %I:%M%p"),
         rooms: messages,
         room_id: room_id.as_json, 
-        user_id: users.id.as_json, 
+        user_id: users.id.as_json,
+        current_user_id: current_user.id,
         name: users.name.as_json},
         status: 200 
     end
@@ -66,7 +68,7 @@ class MessagesController < ApplicationController
     room    = message_params[:room_id]
     message = message_params[:body]
     user    = User.find_by(id: users)
-    Message.create(user_id: current_user.id, sender: current_user.name, room_id: room, body: message)
+    Message.create(user_id: current_user.id, sender: current_user.name, room_id: room, body: message, date: Time.now.strftime("%I:%M %p") )
     ActionCable.server.broadcast "chatroom_channel_#{room}",content: Message.last
   end
 

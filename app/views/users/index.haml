@@ -42,8 +42,8 @@
                     .hidden.content Follow
             %span
               .ui.labeled.button{:tabindex => "0"}
-                .ui.button
-                  %i.heart.icon
+                .ui.button{"data-position" => "top left", "data-tooltip" => "#{user.name} has #{Friend.where(user: user.id).count()} friends"}
+                  %i.users.icon
                 %a.ui.basic.label
                   #{Friend.where(user: user.id).count()}
 

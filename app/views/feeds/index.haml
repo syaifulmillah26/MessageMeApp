@@ -1,0 +1,33 @@
+=render "layouts/menus"
+.container-fluid
+  .ui.segment
+    =render "layouts/flash_message"
+    %h1.text-center Feeds
+
+    .row
+      - @posts.each do |post|
+        .col-md-3.mb-5
+          .ui.card
+            .content
+              .right.floated.meta 14h
+              %img.ui.avatar.image{:src => "https://semantic-ui.com/images/avatar/large/elliot.jpg"}/
+              = post.user.name
+            .image
+              = image_tag(post.image) if post.image.attached?
+            .content
+              %h4
+                = post.title
+              = post.body 
+            .content
+              %span.right.floated
+                %i.heart.outline.like.icon
+                17 likes
+              %i.comment.icon
+              3 comments
+    .row.text-center
+      %div.text-center
+        = pagy_semantic_nav(@pagy).html_safe
+      %br
+                                                       
+    
+

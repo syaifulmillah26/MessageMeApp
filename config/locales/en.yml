@@ -31,3 +31,48 @@
 
 en:
   hello: "Hello world"
+  
+en:
+  datetime:
+      distance_in_words:
+        about_x_hours:
+          one: about 1h
+          other: about %{count}h
+        about_x_months:
+          one: about 1m
+          other: about %{count}m
+        about_x_years:
+          one: about 1y
+          other: about %{count}y
+        almost_x_years:
+          one: almost 1y
+          other: almost %{count}y
+        half_a_minute: half a minute
+        less_than_x_minutes:
+          one: less than a minute
+          other: less than %{count} minutes
+        less_than_x_seconds:
+          one: less than 1 second
+          other: less than %{count} seconds
+        over_x_years:
+          one: over 1 year
+          other: over %{count} years
+        x_days:
+          one: 1d
+          other: "%{count}d"
+        x_minutes:
+          one: 1 minute
+          other: "%{count} minutes"
+        x_months:
+          one: 1m
+          other: "%{count}m"
+        x_seconds:
+          one: 1 second
+          other: "%{count} seconds"
+      prompts:
+        day: Day
+        hour: Hour
+        minute: Minute
+        month: Month
+        second: Seconds
+        year: Year

@@ -1,0 +1,45 @@
+=render "layouts/menus"
+.container-fluid
+  .ui.segment
+    =render "layouts/flash_message"
+    %h2.ui.center.aligned.icon.header
+      %i.circular.users.icon
+      = current_user.name
+
+    %div.text-center
+      %i.circular.users.icon 
+      testing &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      %i.circular.users.icon 
+      testing &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      %i.circular.users.icon 
+      testing &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+      %p testing lahhh
+      
+    %hr
+    %h2.text-center Your feeds
+
+    .row
+      - @posts.each do |post|
+        .col-md-3.mb-5
+          .ui.card
+            .content
+              .right.floated.meta #{time_ago_in_words(post.created_at)}
+              %img.ui.avatar.image{:src => "https://semantic-ui.com/images/avatar/large/elliot.jpg"}/
+              = post.user.name
+            .image
+              = image_tag(post.image) if post.image.attached?
+            .content
+              %h4
+                = link_to post.title, post_path(post.id)
+              = post.body 
+            .content
+              %span.right.floated
+                %i.heart.outline.like.icon
+                17 likes
+              %i.comment.icon
+              3 comments
+
+                                                       
+    
+

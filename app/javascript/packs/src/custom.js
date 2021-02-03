@@ -11,9 +11,9 @@
       $(".noMessage").remove();
     }
     // remove previous style
-    $(".item").css("background-color", "#ffffff")
+    $(".chat_list").css("background-color", "#F8F8F8")
     // adding style
-    $("#"+this_id).css("background-color", "rgb(245 245 245)")
+    $("#"+this_id).css("background-color", "#ebebeb")
 
     const user_id = this_id;
     $.ajax({
@@ -23,6 +23,7 @@
         user_id: user_id,
       },
       success: function (data) {
+        $("#showMessage").css("display", "block")
         $(".header-name").text("Chat with " + data.name);
         $(".user_id").val(data.user_id);
         $("#hideCard").show();
@@ -31,14 +32,28 @@
         if (data.rooms) {
           if (data.rooms != "") {
             data.rooms.forEach(function (wizard) {
-              $("#messages-" + wizard.room_id).append(
-                "<div class='ui large feed' id='message'><div class='event'><div class='label'><img src='https://semantic-ui.com/images/avatar/small/elliot.jpg'></div><div class='content'><div class='summary'>" 
-                + wizard.sender + 
-                "<div class='date'>" 
-                + jQuery.timeago(wizard.created_at) + 
-                "</div></div><div class='extra text'>" 
-                + wizard.body + 
-                "</div></div></div></div>");
+              if (wizard.user_id == $(".user_id").val()){
+                $("#messages-" + wizard.room_id).append(
+                  "<div class='incoming_msg feed' id='message'>" +
+                    "<div class='incoming_msg_img'>" +
+                      "<img alt='sunil' src='https://ptetutorials.com/images/user-profile.png'/></div>" +
+                    "<div class='received_msg'>" +
+                      "<div class='received_withd_msg'>" +
+                        "<p>" + wizard.body + "</p>" +
+                        "<span class='time_date'>"+ wizard.date + "   |   " + jQuery.timeago(wizard.created_at) + "</span>" +
+                      "</div>" +
+                    "</div>" +
+                  "</div> ")
+              } else {
+                $("#messages-" + wizard.room_id).append(
+                  "<div class='outgoing_msg feed' id='message'>" +
+                    "<div class='sent_msg'>" +
+                      "<p>" + wizard.body + "</p>" +
+                      "<span class='time_date'>"+ wizard.date + "   |   " + jQuery.timeago(wizard.created_at) + "</span>" +
+                    "</div>" +
+                  "</div>")
+              }
+
             });
           } else {
             $("#messages-" + data.room_id).append("<div class=' text-center noMessage' id='message' ></br></br></br></br></br></br></br><h5> There are no messages in this chat yet. </h5></div>")

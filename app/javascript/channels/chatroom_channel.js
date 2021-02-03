@@ -25,13 +25,27 @@ window.goTo = function(this_id) {
         received(data) {
           $(".noMessage").remove();
           $(".messages-0").attr("id", "messages-" + data.content.room_id)
-          $("#messages-" + data.content.room_id).append("<div class='ui large feed'><div class='event'><div class='label'><img src='https://semantic-ui.com/images/avatar/small/elliot.jpg'></div><div class='content'><div class='summary'>" 
-            + data.content.sender + 
-            "<div class='date'>" 
-            + jQuery.timeago(data.content.created_at) + 
-            "</div></div><div class='extra text'>" 
-            + data.content.body + 
-            "</div></div></div></div>");
+          if (data.content.user_id == $(".user_id").val()){
+            $("#messages-" + data.content.room_id).append(
+              "<div class='incoming_msg feed' id='message'>" +
+                "<div class='incoming_msg_img'>" +
+                  "<img alt='sunil' src='https://ptetutorials.com/images/user-profile.png'/></div>" +
+                "<div class='received_msg'>" +
+                  "<div class='received_withd_msg'>" +
+                    "<p>" + data.content.body + "</p>" +
+                    "<span class='time_date'>" + data.content.date + "   |   " + jQuery.timeago(data.content.created_at) + "</span>" +
+                  "</div>" +
+                "</div>" +
+              "</div>")
+          } else {
+            $("#messages-" + data.content.room_id).append(
+              "<div class='outgoing_msg feed' id='message'>" +
+                "<div class='sent_msg'>" +
+                  "<p>" + data.content.body + "</p>" +
+                  "<span class='time_date'>" + data.content.date + "   |   " + jQuery.timeago(data.content.created_at) + "</span>" +
+                "</div>" +
+              "</div>")
+          }
         }
       });
     },

@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
-	# etag { current_user.try :id }
-  include ApplicationHelper
-
+	include ApplicationHelper
+	include Pagy::Backend
 	before_action :configure_permitted_parameters, if: :devise_controller?
 
 	protected 

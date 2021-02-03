@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :posts
+  resources :profile, only:[:index]
   mount ActionCable.server, at: '/cable'
 
   resources :messages do
@@ -10,7 +11,7 @@ Rails.application.routes.draw do
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root 'home#index'
+  root 'feeds#index'
   devise_for :users, 
     path: 'auth', 
     path_names: { 

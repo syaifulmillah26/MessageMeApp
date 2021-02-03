@@ -3,7 +3,7 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    @pagy, @posts = pagy(Post.all, items: 10)
   end
 
   # GET /posts/1 or /posts/1.json
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = current_user.posts.new(post_params)
-    @post.slug = post_params[:slug].parameterize
+    @post.slug = post_params[:title].parameterize
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: "Post was successfully created." }
@@ -36,6 +36,7 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    @post.slug = post_params[:title].parameterize
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated." }
@@ -64,6 +65,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :body, :slug, :user_id)
+      params.require(:post).permit(:title, :body, :image, :user_id)
     end
 end
