@@ -24,7 +24,6 @@
       },
       success: function (data) {
         $("#showMessage").css("display", "block")
-        $(".header-name").text("Chat with " + data.name);
         $(".user_id").val(data.user_id);
         $("#hideCard").show();
         $(".room_id").val(data.room_id);
@@ -53,7 +52,8 @@
                     "</div>" +
                   "</div>")
               }
-
+              var elem = document.getElementById('messageContent');
+              elem.scrollTop = elem.scrollHeight;
             });
           } else {
             $("#messages-" + data.room_id).append("<div class=' text-center noMessage' id='message' ></br></br></br></br></br></br></br><h5> There are no messages in this chat yet. </h5></div>")
@@ -80,7 +80,6 @@
         },
       },
       success: function (data) {
-        toastr.success("Send");
         $("#textarea").val("");
       },
     });

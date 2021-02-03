@@ -46,6 +46,8 @@ window.goTo = function(this_id) {
                 "</div>" +
               "</div>")
           }
+          var elem = document.getElementById('messageContent');
+          elem.scrollTop = elem.scrollHeight;
         }
       });
     },

@@ -1,6 +1,5 @@
 =render "layouts/menus"
 .container-fluid
-  =render "layouts/flash_message"
   .messaging
     .inbox_msg
       .inbox_people
@@ -28,7 +27,7 @@
                     Test, which is a new approach to have all solutions
                     astrology under one roof.
       .mesgs{id: "showMessage", style: "display:none"}
-        .msg_history
+        .msg_history{id: "messageContent"}
           %div{class: "messages-0" }
         .type_msg
           .input_msg_write
@@ -179,7 +178,7 @@
   .msg_history {
     height: 499px;
     overflow-y: scroll;
-  }                   
+  }         
 
 
 :javascript
